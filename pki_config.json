@@ -1,0 +1,16 @@
+{
+    "CA": {
+        "CommonName": "wsva",
+        "Organization": "wsva",
+        "Filename": "CA"
+    },
+    "CertServer": {
+        "CAName": "CA",
+        "CommonName": "Server",
+        "IPList": [
+            "10.0.0.1",
+            "10.0.0.101"
+        ],
+        "Filename": "Server"
+    }
+}
