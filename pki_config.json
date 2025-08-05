@@ -1,16 +1,22 @@
 {
-    "CA": {
-        "CommonName": "wsva",
-        "Organization": "wsva",
-        "Filename": "CA"
+  "CA": {
+    "CommonName": "WAS",
+    "Organization": "WAS",
+    "Filename": "CA"
+  },
+  "CertServer": {
+    "CAName": "CA",
+    "CommonName": "Server",
+    "AltNames": {
+      "DNSNames": [
+        "localhost",
+        "was_next.js",
+        "was_oauth2_service",
+        "was_asset_service",
+        "was_config_service"
+      ],
+      "IPs": ["127.0.0.1"]
     },
-    "CertServer": {
-        "CAName": "CA",
-        "CommonName": "Server",
-        "IPList": [
-            "10.0.0.1",
-            "10.0.0.101"
-        ],
-        "Filename": "Server"
-    }
+    "Filename": "Server"
+  }
 }

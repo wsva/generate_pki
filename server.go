@@ -9,10 +9,13 @@ import (
 )
 
 type CertServer struct {
-	CAName     string   `json:"CAName"`
-	CommonName string   `json:"CommonName"`
-	IPList     []string `json:"IPList"`
-	Filename   string   `json:"Filename"`
+	CAName     string `json:"CAName"`
+	CommonName string `json:"CommonName"`
+	AltNames   struct {
+		DNSNames []string `json:"DNSNames"`
+		IPs      []string `json:"IPs"`
+	} `json:"AltNames"`
+	Filename string `json:"Filename"`
 }
 
 func (c *CertServer) Generate() {
@@ -22,16 +25,20 @@ func (c *CertServer) Generate() {
 		return
 	}
 
-	var ipList []net.IP
-	for _, v := range c.IPList {
-		ipList = append(ipList, net.ParseIP(v))
+	toIP := func(IPs []string) []net.IP {
+		result := make([]net.IP, len(IPs))
+		for k, v := range IPs {
+			result[k] = net.ParseIP(v)
+		}
+		return result
 	}
 
 	config := wl_crypto.CertConfig{
 		CertConfigBase: wl_crypto.CertConfigBase{
 			CommonName: c.CommonName,
 			AltNames: wl_crypto.AltNames{
-				IPs: ipList,
+				DNSNames: c.AltNames.DNSNames,
+				IPs:      toIP(c.AltNames.IPs),
 			},
 			Usages: []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
 		},
